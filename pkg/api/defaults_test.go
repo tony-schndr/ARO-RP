@@ -26,6 +26,7 @@ func validOpenShiftClusterDocument() *OpenShiftClusterDocument {
 				},
 				ClusterProfile: ClusterProfile{
 					FipsValidatedModules: FipsValidatedModulesDisabled,
+					HyperthreadingMode:   HyperthreadingEnabled,
 				},
 				OperatorFlags: DefaultOperatorFlags(),
 			},
@@ -104,6 +105,26 @@ func TestSetDefaults(t *testing.T) {
 			},
 			input: func(base *OpenShiftClusterDocument) {
 				base.OpenShiftCluster.Properties.ClusterProfile.FipsValidatedModules = FipsValidatedModulesEnabled
+			},
+		},
+		{
+			name: "default hyperthreadingMode",
+			want: func() *OpenShiftClusterDocument {
+				return validOpenShiftClusterDocument()
+			},
+			input: func(base *OpenShiftClusterDocument) {
+				base.OpenShiftCluster.Properties.ClusterProfile.HyperthreadingMode = ""
+			},
+		},
+		{
+			name: "preserve hypethreading",
+			want: func() *OpenShiftClusterDocument {
+				doc := validOpenShiftClusterDocument()
+				doc.OpenShiftCluster.Properties.ClusterProfile.HyperthreadingMode = HyperthreadingDisabled
+				return doc
+			},
+			input: func(base *OpenShiftClusterDocument) {
+				base.OpenShiftCluster.Properties.ClusterProfile.HyperthreadingMode = HyperthreadingDisabled
 			},
 		},
 		{

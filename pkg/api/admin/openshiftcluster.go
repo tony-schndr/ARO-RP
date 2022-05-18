@@ -77,6 +77,15 @@ const (
 	FipsValidatedModulesDisabled FipsValidatedModules = "Disabled"
 )
 
+type HyperthreadingMode string
+
+const (
+	// HyperthreadingEnabled indicates that hyperthreading is enabled.
+	HyperthreadingEnabled HyperthreadingMode = "Enabled"
+	// HyperthreadingDisabled indicates that hyperthreading is disabled.
+	HyperthreadingDisabled HyperthreadingMode = "Disabled"
+)
+
 type MaintenanceTask string
 
 const (
@@ -93,6 +102,7 @@ type ClusterProfile struct {
 	Version              string               `json:"version,omitempty"`
 	ResourceGroupID      string               `json:"resourceGroupId,omitempty"`
 	FipsValidatedModules FipsValidatedModules `json:"fipsValidatedModules,omitempty"`
+	HyperthreadingMode   HyperthreadingMode   `json:"hyperthreading,omitempty"`
 }
 
 // FeatureProfile represents a feature profile.

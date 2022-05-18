@@ -163,7 +163,7 @@ func (m *manager) generateInstallConfig(ctx context.Context) (*installconfig.Ins
 							},
 						},
 					},
-					Hyperthreading: "Enabled",
+					Hyperthreading: types.HyperthreadingMode(m.doc.OpenShiftCluster.Properties.ClusterProfile.HyperthreadingMode),
 					Architecture:   types.ArchitectureAMD64,
 				},
 			},

@@ -107,6 +107,7 @@ func TestPutOrPatchOpenShiftClusterAdminAPI(t *testing.T) {
 							LastProvisioningState: api.ProvisioningStateSucceeded,
 							ClusterProfile: api.ClusterProfile{
 								FipsValidatedModules: api.FipsValidatedModulesDisabled,
+								HyperthreadingMode:   api.HyperthreadingEnabled,
 							},
 							MaintenanceTask: api.MaintenanceTaskEverything,
 							NetworkProfile: api.NetworkProfile{
@@ -131,6 +132,7 @@ func TestPutOrPatchOpenShiftClusterAdminAPI(t *testing.T) {
 					LastProvisioningState: admin.ProvisioningStateSucceeded,
 					ClusterProfile: admin.ClusterProfile{
 						FipsValidatedModules: admin.FipsValidatedModulesDisabled,
+						HyperthreadingMode:   admin.HyperthreadingEnabled,
 					},
 					MaintenanceTask: admin.MaintenanceTaskEverything,
 					NetworkProfile: admin.NetworkProfile{
@@ -196,6 +198,7 @@ func TestPutOrPatchOpenShiftClusterAdminAPI(t *testing.T) {
 							MaintenanceTask:       api.MaintenanceTaskOperator,
 							ClusterProfile: api.ClusterProfile{
 								FipsValidatedModules: api.FipsValidatedModulesDisabled,
+								HyperthreadingMode:   api.HyperthreadingEnabled,
 							},
 							NetworkProfile: api.NetworkProfile{
 								SoftwareDefinedNetwork: api.SoftwareDefinedNetworkOpenShiftSDN,
@@ -223,6 +226,7 @@ func TestPutOrPatchOpenShiftClusterAdminAPI(t *testing.T) {
 					},
 					ClusterProfile: admin.ClusterProfile{
 						FipsValidatedModules: admin.FipsValidatedModulesDisabled,
+						HyperthreadingMode:   admin.HyperthreadingEnabled,
 					},
 					MasterProfile: admin.MasterProfile{
 						EncryptionAtHost: admin.EncryptionAtHostDisabled,
@@ -283,6 +287,7 @@ func TestPutOrPatchOpenShiftClusterAdminAPI(t *testing.T) {
 							},
 							ClusterProfile: api.ClusterProfile{
 								FipsValidatedModules: api.FipsValidatedModulesDisabled,
+								HyperthreadingMode:   api.HyperthreadingEnabled,
 							},
 							MasterProfile: api.MasterProfile{
 								EncryptionAtHost: api.EncryptionAtHostDisabled,
@@ -310,6 +315,7 @@ func TestPutOrPatchOpenShiftClusterAdminAPI(t *testing.T) {
 					},
 					ClusterProfile: admin.ClusterProfile{
 						FipsValidatedModules: admin.FipsValidatedModulesDisabled,
+						HyperthreadingMode:   admin.HyperthreadingEnabled,
 					},
 					OperatorFlags: admin.OperatorFlags(api.DefaultOperatorFlags()),
 				},
@@ -361,6 +367,7 @@ func TestPutOrPatchOpenShiftClusterAdminAPI(t *testing.T) {
 							LastProvisioningState: api.ProvisioningStateSucceeded,
 							ClusterProfile: api.ClusterProfile{
 								FipsValidatedModules: api.FipsValidatedModulesDisabled,
+								HyperthreadingMode:   api.HyperthreadingEnabled,
 							},
 							MaintenanceTask: api.MaintenanceTaskOperator,
 							NetworkProfile: api.NetworkProfile{
@@ -385,6 +392,7 @@ func TestPutOrPatchOpenShiftClusterAdminAPI(t *testing.T) {
 					LastProvisioningState: admin.ProvisioningStateSucceeded,
 					ClusterProfile: admin.ClusterProfile{
 						FipsValidatedModules: admin.FipsValidatedModulesDisabled,
+						HyperthreadingMode:   admin.HyperthreadingEnabled,
 					},
 					MaintenanceTask: admin.MaintenanceTaskOperator,
 					NetworkProfile: admin.NetworkProfile{
@@ -445,6 +453,7 @@ func TestPutOrPatchOpenShiftClusterAdminAPI(t *testing.T) {
 							LastProvisioningState: api.ProvisioningStateSucceeded,
 							ClusterProfile: api.ClusterProfile{
 								FipsValidatedModules: api.FipsValidatedModulesDisabled,
+								HyperthreadingMode:   api.HyperthreadingEnabled,
 							},
 							MaintenanceTask: api.MaintenanceTaskOperator,
 							NetworkProfile: api.NetworkProfile{
@@ -469,6 +478,7 @@ func TestPutOrPatchOpenShiftClusterAdminAPI(t *testing.T) {
 					LastProvisioningState: admin.ProvisioningStateSucceeded,
 					ClusterProfile: admin.ClusterProfile{
 						FipsValidatedModules: admin.FipsValidatedModulesDisabled,
+						HyperthreadingMode:   admin.HyperthreadingEnabled,
 					},
 					MaintenanceTask: admin.MaintenanceTaskOperator,
 					NetworkProfile: admin.NetworkProfile{
@@ -710,6 +720,7 @@ func TestPutOrPatchOpenShiftCluster(t *testing.T) {
 							ClusterProfile: api.ClusterProfile{
 								Version:              "4.3.0",
 								FipsValidatedModules: api.FipsValidatedModulesDisabled,
+								HyperthreadingMode:   api.HyperthreadingEnabled,
 							},
 							NetworkProfile: api.NetworkProfile{
 								SoftwareDefinedNetwork: api.SoftwareDefinedNetworkOpenShiftSDN,
@@ -767,6 +778,7 @@ func TestPutOrPatchOpenShiftCluster(t *testing.T) {
 							ClusterProfile: api.ClusterProfile{
 								PullSecret:           `{"will":"be-kept"}`,
 								FipsValidatedModules: api.FipsValidatedModulesDisabled,
+								HyperthreadingMode:   api.HyperthreadingEnabled,
 							},
 							IngressProfiles: []api.IngressProfile{{Name: "will-be-removed"}},
 							WorkerProfiles:  []api.WorkerProfile{{Name: "will-be-removed"}},
@@ -806,6 +818,7 @@ func TestPutOrPatchOpenShiftCluster(t *testing.T) {
 								PullSecret:           `{"will":"be-kept"}`,
 								Domain:               "changed",
 								FipsValidatedModules: api.FipsValidatedModulesDisabled,
+								HyperthreadingMode:   api.HyperthreadingEnabled,
 							},
 							ServicePrincipalProfile: api.ServicePrincipalProfile{
 								ClientSecret: "will-be-kept",
@@ -890,6 +903,7 @@ func TestPutOrPatchOpenShiftCluster(t *testing.T) {
 							ClusterProfile: api.ClusterProfile{
 								Domain:               "changed",
 								FipsValidatedModules: api.FipsValidatedModulesDisabled,
+								HyperthreadingMode:   api.HyperthreadingEnabled,
 							},
 							NetworkProfile: api.NetworkProfile{
 								SoftwareDefinedNetwork: api.SoftwareDefinedNetworkOpenShiftSDN,
@@ -1060,6 +1074,7 @@ func TestPutOrPatchOpenShiftCluster(t *testing.T) {
 							ClusterProfile: api.ClusterProfile{
 								Domain:               "changed",
 								FipsValidatedModules: api.FipsValidatedModulesDisabled,
+								HyperthreadingMode:   api.HyperthreadingEnabled,
 							},
 							IngressProfiles: []api.IngressProfile{{Name: "changed"}},
 							WorkerProfiles: []api.WorkerProfile{
@@ -1132,6 +1147,7 @@ func TestPutOrPatchOpenShiftCluster(t *testing.T) {
 							},
 							ClusterProfile: api.ClusterProfile{
 								FipsValidatedModules: api.FipsValidatedModulesDisabled,
+								HyperthreadingMode:   api.HyperthreadingEnabled,
 							},
 							NetworkProfile: api.NetworkProfile{
 								SoftwareDefinedNetwork: api.SoftwareDefinedNetworkOpenShiftSDN,
@@ -1167,6 +1183,7 @@ func TestPutOrPatchOpenShiftCluster(t *testing.T) {
 							ClusterProfile: api.ClusterProfile{
 								Domain:               "changed",
 								FipsValidatedModules: api.FipsValidatedModulesDisabled,
+								HyperthreadingMode:   api.HyperthreadingEnabled,
 							},
 							IngressProfiles: []api.IngressProfile{{Name: "will-be-kept"}},
 							WorkerProfiles: []api.WorkerProfile{
@@ -1231,6 +1248,7 @@ func TestPutOrPatchOpenShiftCluster(t *testing.T) {
 							FailedProvisioningState: api.ProvisioningStateCreating,
 							ClusterProfile: api.ClusterProfile{
 								FipsValidatedModules: api.FipsValidatedModulesDisabled,
+								HyperthreadingMode:   api.HyperthreadingEnabled,
 							},
 							NetworkProfile: api.NetworkProfile{
 								SoftwareDefinedNetwork: api.SoftwareDefinedNetworkOpenShiftSDN,
@@ -1273,6 +1291,7 @@ func TestPutOrPatchOpenShiftCluster(t *testing.T) {
 							FailedProvisioningState: api.ProvisioningStateDeleting,
 							ClusterProfile: api.ClusterProfile{
 								FipsValidatedModules: api.FipsValidatedModulesDisabled,
+								HyperthreadingMode:   api.HyperthreadingEnabled,
 							},
 							NetworkProfile: api.NetworkProfile{
 								SoftwareDefinedNetwork: api.SoftwareDefinedNetworkOpenShiftSDN,
@@ -1317,6 +1336,7 @@ func TestPutOrPatchOpenShiftCluster(t *testing.T) {
 								Version:              "4.3.0",
 								ResourceGroupID:      fmt.Sprintf("/subscriptions/%s/resourcegroups/aro-vjb21wca", mockSubID),
 								FipsValidatedModules: api.FipsValidatedModulesDisabled,
+								HyperthreadingMode:   api.HyperthreadingEnabled,
 							},
 							NetworkProfile: api.NetworkProfile{
 								SoftwareDefinedNetwork: api.SoftwareDefinedNetworkOpenShiftSDN,
@@ -1361,6 +1381,7 @@ func TestPutOrPatchOpenShiftCluster(t *testing.T) {
 							ClusterProfile: api.ClusterProfile{
 								Version:              "4.3.0",
 								FipsValidatedModules: api.FipsValidatedModulesDisabled,
+								HyperthreadingMode:   api.HyperthreadingEnabled,
 							},
 							NetworkProfile: api.NetworkProfile{
 								SoftwareDefinedNetwork: api.SoftwareDefinedNetworkOpenShiftSDN,

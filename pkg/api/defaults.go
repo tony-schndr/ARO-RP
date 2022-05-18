@@ -29,6 +29,9 @@ func SetDefaults(doc *OpenShiftClusterDocument) {
 		if doc.OpenShiftCluster.Properties.ClusterProfile.FipsValidatedModules == "" {
 			doc.OpenShiftCluster.Properties.ClusterProfile.FipsValidatedModules = FipsValidatedModulesDisabled
 		}
+		if doc.OpenShiftCluster.Properties.ClusterProfile.HyperthreadingMode == "" {
+			doc.OpenShiftCluster.Properties.ClusterProfile.HyperthreadingMode = HyperthreadingEnabled
+		}
 
 		// When ProvisioningStateAdminUpdating is set, it needs a MaintenanceTask
 		if doc.OpenShiftCluster.Properties.ProvisioningState == ProvisioningStateAdminUpdating {

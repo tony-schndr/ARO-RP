@@ -136,6 +136,7 @@ func (m *manager) Install(ctx context.Context) error {
 			steps.Action(m.ensureACRToken),
 			steps.Action(m.generateSSHKey),
 			steps.Action(m.populateMTUSize),
+			steps.Action(m.populateHyperthreadingMode),
 			steps.Action(func(ctx context.Context) error {
 				var err error
 				installConfig, image, err = m.generateInstallConfig(ctx)

@@ -139,6 +139,44 @@ const (
 	OutboundTypeLoadbalancer       OutboundType = "Loadbalancer"
 )
 
+// LoadbalancerProfile represents the profile of the cluster public loadbalancer.
+type LoadbalancerProfile struct {
+	// The desired managed outbound IPs for the cluster public load balancer.
+	ManagedOutboundIPs ManagedOutboundIPs `json:"managedOutboundIps,omitempty"`
+	// The list of effective outbound IP addresses of the public load balancer.
+	EffectiveOutboundIPs []EffectiveOutboundIP `json:"effectiveOutboundIps,omitempty"`
+	// The list of resource ids for customer provided Outbound IP Addresses to be added to the cluster public loadbalancer.
+	OutboundIPs []OutboundIP `json:"outboundIps,omitempty"`
+	// The list of resource ids for customer provided Outbound IP Prefixes to be added to the cluster public loadbalancer.
+	OutboundIPPrefixes []OutboundIPPrefix `json:"outboundIpPrefixes,omitempty"`
+	// OutboundRuleSNAT determines the number of SNAT ports to allocate per instance in outbound rule backend pool.
+	OutboundRuleSNAT int `json:"outboundRuleSNAT,omitempty"`
+}
+
+// EffectiveOutboundIP represents an effective outbound IP resource of the cluster public load balancer.
+type EffectiveOutboundIP struct {
+	// The ResourceID of the effective outbound IP Address.
+	ID string `json:"id,omitempty"`
+}
+
+// ManagedOutboundIPs represents the desired managed outbound IPs for the cluster public load balancer.
+type ManagedOutboundIPs struct {
+	// Count represents the desired number of IPv4 outbound IPs created/managed by Azure for the cluster public load balancer.
+	Count int `json:"count,omitempty"`
+}
+
+// OutboundIP represents a customer provided outbound IP to be added to the cluster public loadbalancer.
+type OutboundIP struct {
+	// The ResourceID of the outbound IP Address.
+	ID string `json:"id,omitempty"`
+}
+
+// OutboundIPPrefix represents a customer provided outbound IP prefix to be added to the cluster public loadbalancer.
+type OutboundIPPrefix struct {
+	// The ResourceID of the outbound IP prefix.
+	ID string `json:"id,omitempty"`
+}
+
 // NetworkProfile represents a network profile.
 type NetworkProfile struct {
 	// The software defined network (SDN) to use when installing the cluster.
@@ -153,6 +191,8 @@ type NetworkProfile struct {
 	GatewayPrivateEndpointIP   string           `json:"gatewayPrivateEndpointIp,omitempty"`
 	GatewayPrivateLinkID       string           `json:"gatewayPrivateLinkId,omitempty"`
 	PreconfiguredNSG           PreconfiguredNSG `json:"preconfigureNSG,omitempty"`
+	// The cluster load balancer profile.
+	LoadbalancerProfile LoadbalancerProfile `json:"loadBalancerProfile,omitempty"`
 }
 
 // PreconfiguredNSG represents whether customers want to use their own NSG attached to the subnets

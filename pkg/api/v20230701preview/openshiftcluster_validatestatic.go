@@ -8,6 +8,7 @@ import (
 	"net"
 	"net/http"
 	"net/url"
+	"reflect"
 	"strings"
 
 	"github.com/Azure/go-autorest/autorest/azure"
@@ -96,6 +97,9 @@ func (sv openShiftClusterStaticValidator) validateProperties(path string, p *Ope
 		return err
 	}
 	if err := sv.validateNetworkProfile(path+".networkProfile", &p.NetworkProfile, p.APIServerProfile.Visibility, p.IngressProfiles[0].Visibility); err != nil {
+		return err
+	}
+	if err := sv.validateLoadBalancerProfile(path+".networkProfile.loadBalancerProfile", &p.NetworkProfile.LoadbalancerProfile); err != nil {
 		return err
 	}
 	if err := sv.validateMasterProfile(path+".masterProfile", &p.MasterProfile); err != nil {
@@ -226,6 +230,50 @@ func (sv openShiftClusterStaticValidator) validateNetworkProfile(path string, np
 		}
 		if np.OutboundType == OutboundTypeUserDefinedRouting && (apiServerVisibility != VisibilityPrivate || ingressVisibility != VisibilityPrivate) {
 			return api.NewCloudError(http.StatusBadRequest, api.CloudErrorCodeInvalidParameter, path+".outboundType", "The provided outboundType '%s' is invalid: cannot use UserDefinedRouting if either API Server Visibility or Ingress Visibility is public.", np.OutboundType)
+		}
+	}
+
+	if np.OutboundType == OutboundTypeUserDefinedRouting && !reflect.DeepEqual(np.LoadbalancerProfile, LoadbalancerProfile{}) {
+		return api.NewCloudError(http.StatusBadRequest, api.CloudErrorCodeInvalidParameter, path+".loadBalancerProfile", "The provided loadBalancerProfile is invalid: cannot use a loadBalancerProfile if outboundType is UserDefinedRouting.")
+	}
+
+	return nil
+}
+
+func (sv openShiftClusterStaticValidator) validateLoadBalancerProfile(path string, lbp *LoadbalancerProfile) error {
+	if !reflect.DeepEqual(lbp, LoadbalancerProfile{}) {
+		var isManagedOutboundIPCount = lbp.ManagedOutboundIPs.Count != 0
+		var isOutboundIPs = lbp.OutboundIPs != nil
+		var isOutboundIPPrefixes = lbp.OutboundIPPrefixes != nil
+
+		if isManagedOutboundIPCount && !isOutboundIPPrefixes && !isOutboundIPs {
+			if !(lbp.ManagedOutboundIPs.Count > 0 && lbp.ManagedOutboundIPs.Count < 20) {
+				return api.NewCloudError(http.StatusBadRequest, api.CloudErrorCodeInvalidParameter, path+".ManagedOutboundIPs.Count", "The provided ManagedOutboundIPs.Count %d is invalid: ManagedOutboundIPs.Count must be between 1 and 20.", lbp.ManagedOutboundIPs.Count)
+			}
+		} else if isOutboundIPs && !isOutboundIPPrefixes && !isManagedOutboundIPCount {
+			for _, publicIP := range lbp.OutboundIPs {
+
+				publicIPResource, err := azure.ParseResourceID(publicIP.ID)
+				if err != nil {
+					return err
+				}
+				if !strings.EqualFold(publicIPResource.Provider, "microsoft.network") || !strings.EqualFold(publicIPResource.ResourceType, "publicipaddresses") {
+					return api.NewCloudError(http.StatusBadRequest, api.CloudErrorCodeInvalidParameter, path+".outboundIps", "The provided publicIPAddress is invalid, must be of type Microsoft.Network/publicIPAddresses.")
+				}
+			}
+		} else if isOutboundIPPrefixes && !isOutboundIPs && !isManagedOutboundIPCount {
+			for _, publicIPPrefix := range lbp.OutboundIPPrefixes {
+
+				resource, err := azure.ParseResourceID(publicIPPrefix.ID)
+				if err != nil {
+					return err
+				}
+				if !strings.EqualFold(resource.Provider, "microsoft.network") || !strings.EqualFold(resource.ResourceType, "publicipprefixes") {
+					return api.NewCloudError(http.StatusBadRequest, api.CloudErrorCodeInvalidParameter, path+".outboundIPPrefixes", "The provided publicIPPrefix is invalid, must be of type Microsoft.Network/publicIPPrefixes.")
+				}
+			}
+		} else {
+			return api.NewCloudError(http.StatusBadRequest, api.CloudErrorCodeInvalidParameter, path, "The provided loadBalancerProfile is invalid: can only use one of ManagedOutboundIPs, OutboundIPs, or OutboundIPPrefixes.")
 		}
 	}
 	return nil

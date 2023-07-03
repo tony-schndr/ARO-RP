@@ -241,6 +241,9 @@ func (sv openShiftClusterStaticValidator) validateNetworkProfile(path string, np
 }
 
 func (sv openShiftClusterStaticValidator) validateLoadBalancerProfile(path string, lbp *LoadbalancerProfile) error {
+	// TODO: There does not seem to be a way to validate ManagedOutboundIPs.Count > 0 without using a pointer.  By
+	// default the struct will default to zero values, how would you know if the user passed in a 0 for
+	// count or if the user just neglected to add a LoadbalancerProfile?
 	if !reflect.DeepEqual(lbp, LoadbalancerProfile{}) {
 		var isManagedOutboundIPCount = lbp.ManagedOutboundIPs.Count != 0
 		var isOutboundIPs = lbp.OutboundIPs != nil
